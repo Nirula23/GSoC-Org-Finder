@@ -3964,10 +3964,33 @@ btn.__orgListenerAttached = true;
     const ideasBtn = document.getElementById('mIdeasBtn');
     const repoBtn = document.getElementById('mRepoBtn');
     if (ideasBtn) {
-      if (ideasUrl) ideasBtn.href = ideasUrl; else ideasBtn.removeAttribute('href');
+      if (ideasUrl){
+        ideasBtn.href = ideasUrl; 
+        ideasBtn.removeAttribute('aria-disabled');
+        ideasBtn.removeAttribute('tabindex');
+        ideasBtn.classList.remove('opacity-50', 'pointer-events-none');
+      }
+      else {
+        ideasBtn.removeAttribute('href');
+        ideasBtn.removeAttribute('href');
+        ideasBtn.setAttribute('aria-disabled', 'true');
+        ideasBtn.setAttribute('tabindex', '-1');
+        ideasBtn.classList.add('opacity-50', 'pointer-events-none');
+      }
     }
     if (repoBtn) {
-      if (repoUrl) repoBtn.href = repoUrl; else repoBtn.removeAttribute('href');
+      if (repoUrl){
+        repoBtn.href = repoUrl; 
+        repoBtn.removeAttribute('aria-disabled');
+        repoBtn.removeAttribute('tabindex');
+        repoBtn.classList.remove('opacity-50', 'pointer-events-none');
+      }
+      else {
+        repoBtn.removeAttribute('href');
+        repoBtn.setAttribute('aria-disabled', 'true');
+        repoBtn.setAttribute('tabindex', '-1');
+        repoBtn.classList.add('opacity-50', 'pointer-events-none');
+      }
     }
 
 // Copy link button
