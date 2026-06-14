@@ -282,7 +282,7 @@ kbd:hover{
       margin-bottom: 1rem;
     }
     .modal-header h2 { font-size: 2.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 0.5rem; display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-    .modal-header p { color: #584237; font-size: 0.9rem; line-height: 1.5; }
+    .modal-header p { color: #584237; font-size: 0.9rem; line-height: 1.5; margin-bottom: 0.5rem;}
 
     .modal-body {padding: 0 3rem 3rem; overflow-y: auto; flex: 1; min-height: 0; }
     .section-title { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; color: #555; margin-bottom: 1rem; margin-top: 2rem; border-bottom: 1px solid #f3f3f3; padding-bottom: 0.5rem; }
@@ -2597,11 +2597,6 @@ kbd:hover{
       return;
     }
 
-    const fallbackIdeasLink = (function(){
-      const u = sanitizeHrefUrl(org.ideas);
-      return u ? `<a href="${escapeHtml(u)}" target="_blank" rel="noopener noreferrer" class="mentor-link-chip"><span>💡</span><span>Visit ideas page</span></a>` : '';
-    })();
-
     const sections = [];
     if (entry.status === 'ok' && (entry.channels || []).length > 0) {
       sections.push(`
@@ -2646,8 +2641,7 @@ kbd:hover{
       }
       container.innerHTML = `
         <div class="rounded-2xl border border-dashed border-zinc-200 p-5">
-          <p class="text-sm text-zinc-600 mb-3">${message}</p>
-          <div class="flex flex-wrap gap-2">${fallbackIdeasLink || '<span class="text-xs text-zinc-400">No ideas page listed.</span>'}</div>
+          <p class="text-sm text-zinc-600">${message}</p>
         </div>
       `;
       return;
@@ -2656,7 +2650,6 @@ kbd:hover{
     container.innerHTML = `
       <div class="space-y-4">
         ${sections.join('')}
-        ${fallbackIdeasLink ? `<div class="flex flex-wrap gap-2">${fallbackIdeasLink}</div>` : ''}
       </div>
     `;
   }
@@ -3870,12 +3863,18 @@ btn.__orgListenerAttached = true;
     }
     const isBookmarked = bookmarkedSet.has(org.name);
 
+    const ideasLinkHTML = (function(){
+      const u = sanitizeHrefUrl(org.ideas);
+      return u ? `<a href="${escapeHtml(u)}" target="_blank" rel="noopener noreferrer" class="mentor-link-chip"><span>💡</span><span>Visit ideas page</span></a>` : '';
+    })();
+
     document.getElementById('mHeader').innerHTML = `
       <span class="category-tag">${escapeHtml(String(org.cat).toUpperCase())}</span>
       <div class="flex items-start justify-between pr-10">
         <div>
           <h2>${escapeHtml(org.name)}</h2>
           <p class="text-zinc-500">GSoC Partner for ${escapeHtml(String(org.years))} Years</p>
+          ${ideasLinkHTML}
         </div>
         <button
           id="modalBookmarkBtn"
